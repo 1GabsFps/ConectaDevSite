@@ -118,23 +118,27 @@ document.querySelector('.confirm').addEventListener('click', function() {
 const createPostInput = document.getElementById("create-post")
 const createPostButton= document.getElementById('submit-button');
 
-createPostButton.addEventListener('click', function(event) {
+createPostButton.addEventListener('click', async function(event) {
   event.preventDefault();
   const postContent = createPostInput.value;
   
   if (postContent.trim() !== '') {
     const token = localStorage.getItem('token');
 
-    axios.post('https://apiconectadev.1gabsfps1.repl.co/post', 
-    {
-      Conteudo: postContent
-    },
-    {
-      headers: {
-        'Authorization': `${token}` 
-      }
-    });
-    window.location.reload();
+    try {
+      await axios.post('https://apiconectadev.1gabsfps1.repl.co/post', 
+      {
+        Conteudo: postContent
+      },
+      {
+        headers: {
+          'Authorization': `${token}` 
+        }
+      });
+      window.location.reload();
+    } catch (error) {
+      console.error('Erro ao postar:', error);
+    }
   } else {
     console.log('O conteúdo do post não pode ser vazio.');
   }
